@@ -1,0 +1,7 @@
+/target
+.idea
+build.sbt
+.DS_Store
+*.swp
+build.properties
+

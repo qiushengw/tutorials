@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func main2() {
 	s := []int{1, 2, 3, 4, 5}
 	c := make(chan int)
 
@@ -51,5 +51,49 @@ func fibonacci(n int, c chan int) {
 
 	//wihtout close, receiver side cannot use range to loop, also cannot judge it is closed or not
 	close(c)
+
+}
+
+func fibonacci2(c, quit chan int) {
+	x, y := 0, 1
+	for {
+		select {
+		case c <- x:
+			x, y = y, x+y
+		case <-quit:
+			fmt.Println("quit")
+			return
+
+		}
+	}
+}
+
+func main() {
+	c := make(chan int)
+	go fibonacci(10, c)
+	x := <-c
+	y := <-c
+	fmt.Println("x=", x)
+	fmt.Println("y=", y)
+
+	for i := range c {
+		fmt.Println(i)
+	}
+	fmt.Println(x)
+	fmt.Println("finish")
+
+}
+
+func main3() {
+	c := make(chan int)
+	quit := make(chan int)
+
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Println(<-c)
+		}
+		quit <- 0
+	}()
+	fibonacci2(c, quit)
 
 }
