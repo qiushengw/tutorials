@@ -5,16 +5,24 @@ public class Main{
     public static void main(String[] args){
         MazeMap mazeMap = new MazeMap();
 
-        mazeMap.maze =new int[][] {
-            {1,1,0,1},
-            {0,1,0,0},
-            {0,1,0,0}
+        int[][] mm = new int[][] {
+            { 1, 0, 1, 1, 1, 1, 0, 1, 1, 1 }, 
+            { 1, 0, 1, 0, 1, 1, 1, 0, 1, 1 }, 
+            { 1, 1, 1, 0, 1, 1, 0, 1, 0, 1 }, 
+            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 }, 
+            { 1, 1, 1, 0, 1, 1, 1, 0, 1, 0 }, 
+            { 1, 0, 1, 1, 1, 1, 0, 1, 0, 0 }, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 1, 1, 1, 1, 0, 1, 1, 1 }, 
+            { 1, 1, 0, 0, 0, 0, 1, 0, 0, 1 } 
         };
 
-        Point newP = new Point(1,1); 
-        List<Point> list = mazeMap.getAdjectivePoint(newP);
-        list.forEach(n->System.out.println(n.x + "," + n.y));
+        Point newP = new Point(0,0); 
+        int distence = mazeMap.BFS(mm, newP, new Point(4,6));
+        System.out.println("distence="+ distence);
+
     }
+
 
 
 }

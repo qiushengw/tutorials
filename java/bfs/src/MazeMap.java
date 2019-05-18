@@ -1,6 +1,7 @@
 import java.util.*;
 import java.util.stream.*;
 
+
 class Node{
     Point p;
     int distence;
@@ -13,87 +14,61 @@ class Node{
 
 public class MazeMap{
 
-    public int[][] maze;
-
-    public List<Point> getAdjectivePoint(Point p){
-
-        int yoffset[] = {0, -1, 0, +1};
-        int xoffset[] = {+1, 0, -1, 0};
-        //p.newPointOffset(x, y)
-        List<Point> list = new ArrayList<>();
-        int orgX = p.x;
-        int orgY = p.y;
-        IntStream.range(0,4).forEach(n->{
-            Point newP = new Point(orgX + xoffset[n], orgY + yoffset[n]);
-            int value = maze[newP.x][newP.y];
-            if(value == 1){
-                list.add(newP);
-            }
-        });
-
-        return list;
+    public int ROW;
+    public int COL;
+    private int rowNum[] = {0, -1, 0, +1};
+    private int colNum[] = {+1, 0, -1, 0};
+    
+    boolean isValid(int row, int col){
+        return (row>=0 && row <ROW) && (col>=0 && col<COL);
     }
 
 
-    public int BFS(Point start, Point end){
+    public int BFS(int[][] maze, Point start, Point end){
         if(start.x<0 || start.y<0||start.x>=maze.length || start.y>=maze.length || maze[start.x][start.y]==0||
             end.x<0 || end.y<0||end.x>=maze.length || end.y>=maze.length || maze[start.x][start.y]==0){
             return -1;
         }
 
-        Point current = new Point(start.x, start.y);
-        Node currentNode = new Node(current, 0);
+        this.ROW = maze.length;
+        this.COL = maze[0].length;
 
+        System.out.printf("ROW=%d, COL=%d\n", this.ROW, this.COL);
+
+        int[][] visited = new int[ROW][COL]; 
+        visited[start.x][start.y] = 1;
         LinkedList<Node> queue = new LinkedList<>();
-        LinkedList<Point> visited = new LinkedList<>();
+        Node currentNode = new Node(start, 0);
         queue.add(currentNode);
-        visited.add(current);
 
         while(!queue.isEmpty()){
-            Node front = queue.poll();
-            Point pt = front.p;
-
+            Node curr = queue.peek();
+            Point pt = curr.p;
             if(pt.equals(end)){
-                return front.distence;
+                return curr.distence;
             }
 
-            List<Point> adjectivePoints = this.getAdjectivePoint(pt);
-            for(Point xp : adjectivePoints){
-                if(visited.contains(xp)){
-                    continue;
-                }
+            queue.pop();
+            for(int i=0;i<4;i++){
+               int row = pt.x + rowNum[i];
+               int col = pt.y + colNum[i];
                 
+              System.out.print("isValid="+isValid(row, col)); 
+              System.out.printf(" maze[%d][%d]", row, col); 
+           System.out.printf(" visitied[%d][%d]\n",row, col); 
 
 
-                if(!visited.contains(xp)) {
-                    visited.add(xp);
-                    if(xp.equals(end)){
-                        return distence;
-                    }else{
-                        List<Point> nextPList = this.getAdjectivePoint(xp); 
-
-                    }
-
-
-
-                }
-                visited.add(xp);
-                if(start.equals(end)){
-                    return distence;
-                }
-
-
-
+               if(isValid(row, col) && maze[row][col]==1 && visited[row][col]==0){
+                 visited[row][col] = 1;
+                 Node newNode = new Node(new Point(row, col),curr.distence+1);
+                 queue.push(newNode); 
+               }
 
             }
+            
         }
 
-        
-
-
-
-
-        return 0;
+        return -1;
     }
 
     
