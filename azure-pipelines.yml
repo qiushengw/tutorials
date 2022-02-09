@@ -1,6 +1,6 @@
 jobs:
 - deployment: VMDeploy
-  displayName: web
+  displayName: Deploy SCF To Windows
   environment:
     name:  test-pub-vm
     resourceType: VirtualMachine
@@ -10,8 +10,6 @@ jobs:
         maxParallel: 5  #for percentages, mention as x%
         preDeploy:
           steps:
-          - download: current
-            artifact: drop
           - script: echo initialize, cleanup, backup, install certs
         deploy:
           steps:
