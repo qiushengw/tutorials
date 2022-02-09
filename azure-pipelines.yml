@@ -1,19 +1,34 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- master
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+jobs:
+- deployment: VMDeploy
+  dependsOn: Build
+  displayName: web
+  environment:
+    name:  test-pub-vm
+    resourceType: VirtualMachine
+    tags: windows
+  strategy:
+      rolling:
+        maxParallel: 5  #for percentages, mention as x%
+        preDeploy:
+          steps:
+          - download: current
+            artifact: drop
+          - script: echo initialize, cleanup, backup, install certs
+        deploy:
+          steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'C:/scripts/downalod-deploy.bat'
+        routeTraffic:
+          steps:
+          - script: echo routing traffic
+        postRouteTraffic:
+          steps:
+          - script: echo health check post-route traffic
+        on:
+          failure:
+            steps:
+            - script: echo Restore from backup! This is on failure
+          success:
+            steps:
+            - script: echo Notify! This is on success
