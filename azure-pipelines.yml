@@ -15,7 +15,7 @@ jobs:
           steps:
           - task: CmdLine@2
             inputs:
-              script: 'C:/scripts/downalod-deploy.bat'
+              script: 'C:/scripts/download-deploy.bat'
         routeTraffic:
           steps:
           - script: echo routing traffic
