@@ -13,12 +13,12 @@ jobs:
           - script: echo initialize, cleanup, backup, install certs
         deploy:
           steps:
-          - task: BatchScript@1
-            inputs:
-              filename: "C:/scripts/download.bat"
+      #    - task: BatchScript@1
+      #      inputs:
+      #        filename: "C:/scripts/download.bat"
           - task: CmdLine@2
             inputs:
-              script: 'java -jar C:\scripts\spring-petclinic-2.6.0-SNAPSHOT.jar'
+              script: 'C:/scripts/download-deploy.bat'
           
         routeTraffic:
           steps:
