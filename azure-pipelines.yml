@@ -13,9 +13,9 @@ jobs:
           - script: echo initialize, cleanup, backup, install certs
         deploy:
           steps:
-          - task: CmdLine@2
+          - task: BatchScript@1
             inputs:
-              script: 'C:/scripts/download.bat'
+              filename: 'C:/scripts/download.bat'
           - task: CmdLine@2
             inputs:
               script: 'java -jar C:\scripts\spring-petclinic-2.6.0-SNAPSHOT.jar'
