@@ -4,7 +4,7 @@ jobs:
   environment:
     name:  test-pub-vm
     resourceType: VirtualMachine
-    tags: windows,dev
+    tags: windows,sit
   strategy:
       rolling:
         maxParallel: 5  #for percentages, mention as x%
