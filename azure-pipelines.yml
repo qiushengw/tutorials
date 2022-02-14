@@ -18,7 +18,7 @@ jobs:
               filename: "C:/scripts/download.bat"
           - task: CmdLine@2
             inputs:
-              script: 'start C:\jdk-11\bin\java -jar C:\scripts\spring-petclinic-2.6.0-SNAPSHOT.jar'
+              script: 'start call C:\scripts\start.bat'
           
         routeTraffic:
           steps:
