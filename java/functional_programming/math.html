@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+
+<div id="game">
+</div>
+
+<script>
+function validate(inputVal, value){
+
+    var userV = inputVal.value;
+
+    if (!userV) {
+        inputVal.style.backgroundColor = "yellow";
+    }else{
+        if (userV==value) {
+            inputVal.style.backgroundColor = "lawngreen";
+        }else{
+            inputVal.style.backgroundColor = "red";
+        }
+    }
+
+
+}
+
+
+</script>
+
+<button onclick="cal()">Finish</button>
+<script>
+
+
+  function question(i){
+    var a = Math.floor(Math.random() * 10);
+    var b = Math.floor(Math.random() * 10);
+    let v = ((a+b))
+  	var htmlstr = "<span id='anw-"+i+"'"+" value="+(a+b)+">"+ a + "+"+ b +"= <input size=10 id='qq'"+i+" onfocusout=\"validate(this, " + v +")\"></span>";
+
+    return htmlstr;
+  }
+  const gameBox = document.getElementById("game");
+  for(var i=0;i<10;i++){
+	const el = document.createElement('div');
+	el.setAttribute('id', 'math-id-'+i);
+	el.textContent = 'Hello world';
+	el.innerHTML = question(i);
+
+	gameBox.appendChild(el);
+  }
+
+</script>
+
+
+</body>
+</html>
