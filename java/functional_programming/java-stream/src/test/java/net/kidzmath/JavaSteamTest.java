@@ -12,6 +12,9 @@ public class JavaSteamTest {
 
     Consumer<Object> plr = System.out::println;
 
+    /**
+     * get a numbers list which greater then 3
+     */
     @Test
     public void filter() {
         List<Integer> numbers = List.of(1, 2, 3, 5, 6);
@@ -22,6 +25,9 @@ public class JavaSteamTest {
 
     }
 
+    /**
+     * Generate a list based on a given list, and get the cube value of the original number.
+     */
     @Test
     public void map() {
         List<Integer> numbers = List.of(1, 2, 3, 5, 6);
@@ -35,6 +41,9 @@ public class JavaSteamTest {
 
     }
 
+    /**
+     * sort above result in reverse order
+     */
     @Test
     public void sort() {
         List<Integer> numbers = List.of(1, 2, 3, 5, 6);
@@ -51,6 +60,9 @@ public class JavaSteamTest {
     }
 
 
+    /**
+     * filter out duplicate value from above result
+     */
     @Test
     public void collectors_tomap(){
         List<Integer> numbers = List.of(1, 2, 3, 5, 6, 5);
@@ -70,18 +82,20 @@ public class JavaSteamTest {
 
     }
 
-
+    /**
+     * Summaries the list to get a total number
+     */
     @Test
     public void collectors_reduce(){
         List<Integer> numbers = List.of(1, 2, 3, 5, 6, 5, 100,200, 213);
-        int identity = 6;
+        int identity = 0;
         Integer summary = numbers.stream().reduce(identity, (a,b) -> {
                     System.out.println("identity:" + identity + " a:" + a + " b:" + b);
                     return a + b;
                 }
         );
 
-        assertEquals(541, summary);
+        assertEquals(535, summary);
 
     }
 
