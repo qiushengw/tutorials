@@ -7,22 +7,26 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+//https://github.com/qiushengw/tutorials/blob/master/java/functional_programming/java-stream/src/test/java/net/kidzmath/JavaSteamTest.java
 
 public class JavaSteamTest {
+    Consumer<Object> prl = System.out::println;
 
-    Consumer<Object> plr = System.out::println;
 
     /**
-     * get a numbers list which greater then 3
+     * get a numbers list which greater than 3
      */
     @Test
     public void filter() {
         List<Integer> numbers = List.of(1, 2, 3, 5, 6);
-        List<Integer> newNubers = numbers.stream().filter(x->x>3).collect(Collectors.toList());
+        List result = new ArrayList();
 
-        assertEquals(2, newNubers.size());
-        newNubers.forEach(plr);
+        result = numbers.stream().filter(x->x>3).collect(Collectors.toList());
 
+
+
+        assertEquals(2, result.size());
+        result.forEach(prl);
     }
 
     /**
@@ -31,14 +35,16 @@ public class JavaSteamTest {
     @Test
     public void map() {
         List<Integer> numbers = List.of(1, 2, 3, 5, 6);
-        List<Double> newNubers = numbers.stream().filter(x->x>3).map(x->Math.pow((x+0.0),3)).collect(Collectors.toList());
+        //List result = new ArrayList();
 
-        assertEquals(2, newNubers.size());
-        assertEquals(125, newNubers.get(0));
-        assertEquals(216, newNubers.get(1));
+       List<Double> result = numbers.stream().filter(x->x>3).map(x->Math.pow(x,3)).collect(Collectors.toList());
 
-        newNubers.forEach(plr);
 
+        assertEquals(2, result.size());
+        assertEquals(125, result.get(0));
+        assertEquals(216, result.get(1));
+
+        result.forEach(prl);
     }
 
     /**
@@ -47,15 +53,17 @@ public class JavaSteamTest {
     @Test
     public void sort() {
         List<Integer> numbers = List.of(1, 2, 3, 5, 6);
-        List<Double> newNubers = numbers.stream().filter(x->x>3).map(x->Math.pow((x+0.0),3))
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
 
-        assertEquals(2, newNubers.size());
-        assertEquals(125, newNubers.get(1));
-        assertEquals(216, newNubers.get(0));
 
-        newNubers.forEach(plr);
+        List<Double> result = numbers.stream().filter(x->x>3).map(x->Math.pow(x,3)).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+
+
+
+
+        assertEquals(2, result.size());
+        assertEquals(216, result.get(0));
+        assertEquals(125, result.get(1));
+        result.forEach(prl);
 
     }
 
@@ -66,20 +74,19 @@ public class JavaSteamTest {
     @Test
     public void collectors_tomap(){
         List<Integer> numbers = List.of(1, 2, 3, 5, 6, 5);
+        //List result = new ArrayList();
 
-        Map<String, Double> newNubers = numbers.stream().filter(x->x>3).map(x->Math.pow((x+0.0),3))
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toMap( k ->  "Key-".concat(String.valueOf(k)),  k->k , (x1,x2) -> x2));
+        Map<String, Double> resultMap = numbers.stream().filter(x->x>3).map(x->Math.pow(x,3)).sorted(Comparator.reverseOrder())
+                .collect(Collectors.toMap(
+                k -> "Key-".concat(String.valueOf(k)),
+                        v->v,
+                        (x1,x2) -> x2
+        ));
 
+        Collection<Double> result = resultMap.values();
 
-        assertEquals(2, newNubers.keySet().size());
-        assertEquals(125, newNubers.get("Key-125.0"));
-        assertEquals(216, newNubers.get("Key-216.0"));
-
-
-        newNubers.values().forEach(plr);
-        newNubers.keySet().forEach(plr);
-
+        assertEquals(2, result.size());
+     //   result.forEach(prl);
     }
 
     /**
@@ -88,15 +95,17 @@ public class JavaSteamTest {
     @Test
     public void collectors_reduce(){
         List<Integer> numbers = List.of(1, 2, 3, 5, 6, 5, 100,200, 213);
-        int identity = 0;
-        Integer summary = numbers.stream().reduce(identity, (a,b) -> {
-                    System.out.println("identity:" + identity + " a:" + a + " b:" + b);
-                    return a + b;
+        int sum = 0;
+        final int identity = 0;
+        sum = numbers.stream().reduce(identity,(x,y)->
+                {
+                    System.out.println("identity:" + identity + " x:"+x + " y:" + y);
+                    return x + y;
                 }
         );
 
-        assertEquals(535, summary);
 
+        assertEquals(535, sum);
     }
 
 }
